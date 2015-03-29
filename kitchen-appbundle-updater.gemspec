@@ -5,7 +5,7 @@ require 'kitchen-appbundle-updater/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'kitchen-appbundle-updater'
-  spec.version       = Kitchen::Driver::APPBUNDLE-UPDATER_VERSION
+  spec.version       = KitchenAppbundleUpdater::VERSION
   spec.authors       = ['Jay Mundrawala']
   spec.email         = ['jdmundrawala@gmail.com']
   spec.description   = %q{A Test Kitchen Driver for Appbundle-updater}
