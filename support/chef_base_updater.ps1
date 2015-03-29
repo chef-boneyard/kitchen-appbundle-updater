@@ -1,3 +1,7 @@
+$ErrorActionPreference = "Stop";
+
+Function Log($m) { Write-Host "       $m`n" }
+
 Function Make-WebClient {
   $proxy = New-Object -TypeName System.Net.WebProxy
   $proxy.Address = $env:http_proxy
@@ -16,29 +20,40 @@ Function Unzip-File($src, $dst) {
 }
 
 Function Update-Chef($gitref, $dstdir) {
-  Write-Host "Updating Chef"
-
-  $url = "https://github.com/chef/chef/archive/$($gitref).zip"
+  $url = "https://github.com/chef/chef/archive/$gitref.zip"
   $dstloc = "$dstdir\chef-$($gitref).zip"
   $unziploc = "$dstdir\chef-$($gitref)"
+  $newloc = "$dstdir\chef"
+
+  if (Test-Path $unziploc) {
+    Log "Removing existing checkout"
+    Remove-Item $unziploc -Recurse -Force 
+  }
+  if (Test-Path $newloc) {
+    Log "Removing existing checkout"
+    Remove-Item $newloc -Recurse -Force 
+  }
+
   Try {
-    Log "Downloading chef from $url to $dst"
+    Log "Downloading chef from $url to $dstloc"
     ($c = Make-WebClient).DownloadFile($url, $dstloc)
     Log "Download complete."
   } Finally { if ($c -ne $null) { $c.Dispose() } }
 
-  Write-Host "Unzipping $dstloc to $unziploc"
-  Unzip-File $dstloc $unziploc
+  Log "Unzipping $dstloc to $unziploc"
+  Unzip-File $dstloc $dstdir
+  mv $unziploc $newloc
 
-  Write-Host "Switching to $unziploc"
-  Push-Location -Path $unziploc
+  Log "Switching to $newloc"
+  Push-Location -Path $newloc
   Try {
-    Write-Host "Generating Gemfile.lock"
-    $chef_omnibus_root\embedded\bin\bundle install --without server docgen test development
-    $chef_omnibus_root\embedded\bin\appbundle "$chef_omnibus_root\embedded\apps\" "$chef_omnibus_root\bin"
+    Log "Generating Gemfile.lock"
+    & "$chef_omnibus_root\embedded\bin\bundle.bat" install --without server docgen test development
+    & "$chef_omnibus_root\embedded\bin\appbundler.bat" "$newloc" "$chef_omnibus_root\bin"
   } Finally {
     Pop-Location
   }
+  Log "Done`n"
 }
 
-Update-Chef "$gitref" "$($gitdir)\$($gitref)"
+Update-Chef $gitref $gitdir
