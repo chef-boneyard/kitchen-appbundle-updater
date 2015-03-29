@@ -19,8 +19,8 @@ Function Unzip-File($src, $dst) {
   }
 }
 
-Function Update-Chef($gitref, $dstdir) {
-  $url = "https://github.com/chef/chef/archive/$gitref.zip"
+Function Update-Chef($gitorg, $gitrepo, $gitref, $dstdir) {
+  $url = "https://github.com/$gitorg/$gitrepo/archive/$gitref.zip"
   $dstloc = "$dstdir\chef-$($gitref).zip"
   $unziploc = "$dstdir\chef-$($gitref)"
   $newloc = "$dstdir\chef"
@@ -56,4 +56,4 @@ Function Update-Chef($gitref, $dstdir) {
   Log "Done`n"
 }
 
-Update-Chef $gitref $gitdir
+Update-Chef $gitorg $gitrepo $gitref $gitdir

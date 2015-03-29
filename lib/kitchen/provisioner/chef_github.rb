@@ -5,6 +5,8 @@ module Kitchen
   module Provisioner
     class ChefGithub < Kitchen::Provisioner::ChefZero
       default_config :chef_gitref, "master"
+      default_config :chef_gitorg, "chef"
+      default_config :chef_gitrepo, "chef"
 
       def prepare_command
         [
@@ -16,6 +18,8 @@ module Kitchen
       def prepare_command_vars_for_powershell
         [
           shell_var("gitref", config[:chef_gitref]),
+          shell_var("gitorg", config[:chef_gitorg]),
+          shell_var("gitrepo", config[:chef_gitrepo]),
           shell_var("gitdir", "$env:TEMP\\"),
           shell_var("chef_omnibus_root", config[:chef_omnibus_root]),
         ].join("\n")
