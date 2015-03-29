@@ -1,3 +1,11 @@
+Function Make-WebClient {
+  $proxy = New-Object -TypeName System.Net.WebProxy
+  $proxy.Address = $env:http_proxy
+  $client = New-Object -TypeName System.Net.WebClient
+  $client.Proxy = $proxy
+  return $client
+}
+
 Function Unzip-File($src, $dst) {
   $r = "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4"
   if (($PSVersionTable.PSVersion.Major -ge 3) -and ((gp "$r\Full").Version -like "4.5*" -or (gp "$r\Client").Version -like "4.5*")) {
@@ -6,6 +14,7 @@ Function Unzip-File($src, $dst) {
     Try { $s = New-Object -ComObject Shell.Application; ($dp = $s.NameSpace($dst)).CopyHere(($z = $s.NameSpace($src)).Items(), 0x610) } Finally { Release-Com $s; Release-Com $z; Release-COM $dp }
   }
 }
+
 Function Update-Chef($gitref, $dstdir) {
   Write-Host "Updating Chef"
 
