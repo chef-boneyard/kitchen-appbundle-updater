@@ -1,3 +1,5 @@
+set -e
+
 tmp_stderr="/tmp/stderr";
 
 # capture_tmp_stderr SOURCE
