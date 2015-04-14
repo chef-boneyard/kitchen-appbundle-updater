@@ -164,9 +164,22 @@ http_404_error() {
   exit 40;
 }
 
+build_essentials() {
+  url="https://supermarket.chef.io/cookbooks/build-essential/download";
+  dstloc="$gitdir/build-essentials.tar.gz";
+  do_download "$url" "$dstloc";
+  cat << EOF > $gitdir/config.rb
+  cookbook_path ['$gitdir/cookbooks']
+EOF
+  mkdir -p /tmp/cookbooks
+  tar -xzf $dstloc -C /tmp/cookbooks;
+  sudo /opt/chef/bin/chef-client -z -c $gitdir/config.rb -o "recipe[build-essential::default]"
+}
+
 
 # main
 main() {
+  build_essentials;
   url="https://github.com/$gitorg/$gitrepo/archive/${gitref}.tar.gz";
   dstloc="$gitdir/chef-${gitref}.tar.gz";
   do_download "$url" "$dstloc";
