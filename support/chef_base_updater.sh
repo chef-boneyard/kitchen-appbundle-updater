@@ -187,7 +187,7 @@ main() {
   if [ -d "$gitdir/chef" ]; then
     rm -r "$gitdir/chef"
   fi
-  mv "$gitdir/`basename -s .tar.gz $dstloc`" "$gitdir/chef";
+  mv "$gitdir/`basename $dstloc | sed -e 's/.tar.gz//'`" "$gitdir/chef";
   cd "$gitdir/chef"
   sudo "$chef_omnibus_root/embedded/bin/bundle" install --without server docgen test development;
   sudo "$chef_omnibus_root/embedded/bin/appbundler" `pwd` "$chef_omnibus_root/bin";
