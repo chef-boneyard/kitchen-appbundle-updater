@@ -1,36 +1,40 @@
-# <a name="title"></a> Kitchen::Appbundle-updater
+# <a name="title"></a> kitchen-appbundle-updater
 
-A Test Kitchen Driver for Appbundle-updater.
+A Test Kitchen Driver that will use a version of Chef-Client from Github.
+It provides a provisioner based on `Kitchen::Provisioner::ChefZero`. There
+is currently no support for `chef-solo`.
 
 ## <a name="requirements"></a> Requirements
-
-**TODO:** document any software or library prerequisites that are required to
-use this driver. Implement the `#verify_dependencies` method in your Driver
-class to enforce these requirements in code, if possible.
+### Test-Kitchen
+This provider requires [Test-Kitchen](https://github.com/test-kitchen/test-kitchen) `~> 1.4`.
 
 ## <a name="installation"></a> Installation and Setup
+Add the following to your Gemfile:
+```ruby
+gem "test-kitchen", "~> 1.4.0.rc.1"
+gem 'kitchen-appbundle-updater', git: "https://github.com/jdmundrawala/kitchen-appbundle-updater.git"
+```
 
-Please read the [Driver usage][driver_usage] page for more details.
+You can use the provided provisioner by modifying the `provisioner` section
+in your `.kitchen.yml` to look like:
+```yaml
+provisioner:
+  name: chef_github
+```
 
 ## <a name="config"></a> Configuration
 
-**TODO:** Write descriptions of all configuration options
+### <a name="config-chef-gitref"></a> chef\_gitref
 
-### <a name="config-require-chef-omnibus"></a> require\_chef\_omnibus
+The branch, tag, or SHA to use. The default value is `master`.
 
-Determines whether or not a Chef [Omnibus package][chef_omnibus_dl] will be
-installed. There are several different behaviors available:
+### <a name="config-chef-gitorg"></a> chef\_gitorg
 
-* `true` - the latest release will be installed. Subsequent converges
-  will skip re-installing if chef is present.
-* `latest` - the latest release will be installed. Subsequent converges
-  will always re-install even if chef is present.
-* `<VERSION_STRING>` (ex: `10.24.0`) - the desired version string will
-  be passed the the install.sh script. Subsequent converges will skip if
-  the installed version and the desired version match.
-* `false` or `nil` - no chef is installed.
+The Github org or user which owns the repository. The default value is `chef`.
 
-The default value is unset, or `nil`.
+### <a name="config-chef-gitorg"></a> chef\_gitrepo
+
+The name of the repository. The default value is `chef`.
 
 ## <a name="development"></a> Development
 
@@ -56,9 +60,7 @@ Created and maintained by [Jay Mundrawala][author] (<jdmundrawala@gmail.com>)
 Apache 2.0 (see [LICENSE][license])
 
 
-[author]:           https://github.com/enter-github-user
-[issues]:           https://github.com/enter-github-user/kitchen-appbundle-updater/issues
-[license]:          https://github.com/enter-github-user/kitchen-appbundle-updater/blob/master/LICENSE
-[repo]:             https://github.com/enter-github-user/kitchen-appbundle-updater
-[driver_usage]:     http://docs.kitchen-ci.org/drivers/usage
-[chef_omnibus_dl]:  http://www.getchef.com/chef/install/
+[author]:           https://github.com/jdmundrawala
+[issues]:           https://github.com/jdmundrawala/kitchen-appbundle-updater/issues
+[license]:          https://github.com/jdmundrawala/kitchen-appbundle-updater/blob/master/LICENSE
+[repo]:             https://github.com/jdmundrawala/kitchen-appbundle-updater
