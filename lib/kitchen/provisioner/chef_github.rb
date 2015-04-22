@@ -23,6 +23,13 @@ module Kitchen
         end
       end
 
+      def latest_chef_appbundle_updater
+        @cookbook_url ||= open("https://api.github.com/repos/jdmundrawala/chef-appbundle-updater/releases/latest") do |r|
+          j = JSON.parse(r.read)
+          j["assets"][0]["browser_download_url"]
+        end
+      end
+
       def prepare_command
         [
           prepare_command_vars,
@@ -32,6 +39,7 @@ module Kitchen
 
       def prepare_command_vars
         vars = [
+          shell_var("cookbook_url", latest_chef_appbundle_updater),
           shell_var("json", File.join(config[:root_path], 'dna_updater.json')),
           shell_var("chef_omnibus_root", config[:chef_omnibus_root]),
         ]
