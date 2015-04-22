@@ -4,9 +4,24 @@ require 'kitchen-appbundle-updater/helpers'
 module Kitchen
   module Provisioner
     class ChefGithub < Kitchen::Provisioner::ChefZero
-      default_config :chef_gitref, "master"
-      default_config :chef_gitorg, "chef"
-      default_config :chef_gitrepo, "chef"
+      default_config :refname, "master"
+      default_config :github_owner, "chef"
+      default_config :github_repo, "chef"
+
+      def create_sandbox
+        super
+        dna = {
+          chef_appbundle_updater: {
+            github_org: config[:github_owner],
+            github_repo: config[:github_repo],
+            refname: config[:refname]
+          }
+        }
+
+        File.open(File.join(sandbox_path, 'dna_updater.json'), "wb") do |f|
+          f.write(dna.to_json)
+        end
+      end
 
       def prepare_command
         [
@@ -17,30 +32,17 @@ module Kitchen
 
       def prepare_command_vars
         vars = [
-          shell_var("gitref", config[:chef_gitref]),
-          shell_var("gitorg", config[:chef_gitorg]),
-          shell_var("gitrepo", config[:chef_gitrepo]),
+          shell_var("json", File.join(config[:root_path], 'dna_updater.json')),
           shell_var("chef_omnibus_root", config[:chef_omnibus_root]),
         ]
+
         if powershell_shell?
-          (vars + prepare_command_vars_for_powershell).join("\n")
+          vars.join("\n")
         else
-          (vars + prepare_command_vars_for_sh).join(";\n")
+          vars.join(";\n")
         end
       end
 
-      def prepare_command_vars_for_powershell
-        [
-          shell_var("gitdir", "$env:TEMP\\"),
-        ]
-      end
-
-      def prepare_command_vars_for_sh
-        [
-          shell_var("gitdir", "/tmp/"),
-          shell_var("sudo_sh", sudo("sh")),
-        ]
-      end
     end
   end
 end
