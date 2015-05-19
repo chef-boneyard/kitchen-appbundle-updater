@@ -11,8 +11,8 @@ This provider requires [Test-Kitchen](https://github.com/test-kitchen/test-kitch
 ## <a name="installation"></a> Installation and Setup
 Add the following to your Gemfile:
 ```ruby
-gem "test-kitchen", "~> 1.4.0.rc.1"
-gem 'kitchen-appbundle-updater', git: "https://github.com/jdmundrawala/kitchen-appbundle-updater.git"
+gem "test-kitchen", "~> 1.4.0"
+gem 'kitchen-appbundle-updater'
 ```
 
 You can use the provided provisioner by modifying the `provisioner` section
@@ -24,15 +24,15 @@ provisioner:
 
 ## <a name="config"></a> Configuration
 
-### <a name="config-chef-gitref"></a> chef\_gitref
+### <a name="config-refname"></a> refname
 
 The branch, tag, or SHA to use. The default value is `master`.
 
-### <a name="config-chef-gitorg"></a> chef\_gitorg
+### <a name="config-github-owner"></a> github_owner
 
 The Github org or user which owns the repository. The default value is `chef`.
 
-### <a name="config-chef-gitorg"></a> chef\_gitrepo
+### <a name="config-github-repo"></a> github_repo
 
 The name of the repository. The default value is `chef`.
 
