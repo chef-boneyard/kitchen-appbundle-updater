@@ -24,7 +24,7 @@ module Kitchen
       end
 
       def latest_chef_appbundle_updater
-        url = "https://api.github.com/repos/jdmundrawala/chef-appbundle-updater/releases/latest"
+        url = "https://api.github.com/repos/jaym/chef-appbundle-updater/releases/latest"
         url += "?access_token=#{config[:github_access_token]}" if config[:github_access_token]
 
         @cookbook_url ||= open(url) do |r|
