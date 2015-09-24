@@ -8,50 +8,27 @@ module Kitchen
       default_config :github_owner, "chef"
       default_config :github_repo, "chef"
 
-      def create_sandbox
-        super
-        dna = {
-          chef_appbundle_updater: {
-            github_org: config[:github_owner],
-            github_repo: config[:github_repo],
-            refname: config[:refname]
-          }
-        }
-
-        File.open(File.join(sandbox_path, 'dna_updater.json'), "wb") do |f|
-          f.write(dna.to_json)
-        end
-      end
-
-      def latest_chef_appbundle_updater
-        url = "https://api.github.com/repos/jaym/chef-appbundle-updater/releases/latest"
-        url += "?access_token=#{config[:github_access_token]}" if config[:github_access_token]
-
-        @cookbook_url ||= open(url) do |r|
-          j = JSON.parse(r.read)
-          j["assets"][0]["browser_download_url"]
-        end
-      end
-
       def prepare_command
-        [
-          prepare_command_vars,
-          KitchenAppbundleUpdater::Helpers.load_file("chef_base_updater", powershell_shell?)
-        ].join("\n")
+        gem_bin = remote_path_join(config[:ruby_bindir], "gem").
+          tap { |path| path.concat(".bat") if windows_os? }
+        vars = [
+          chef_client_zero_env,
+          shell_var("refname", config[:refname]),
+          shell_var("github_owner", config[:github_owner]),
+          shell_var("github_repo", config[:github_repo]),
+          shell_var("gem", sudo(gem_bin)),
+        ].join("\n").concat("\n")
+
+        shell_code_from_file(vars, updater_script)
       end
 
-      def prepare_command_vars
-        vars = [
-          shell_var("cookbook_url", latest_chef_appbundle_updater),
-          shell_var("json", File.join(config[:root_path], 'dna_updater.json')),
-          shell_var("chef_omnibus_root", config[:chef_omnibus_root]),
-        ]
+      private
 
-        if powershell_shell?
-          vars.join("\n")
-        else
-          vars.join(";\n")
-        end
+      def updater_script(file, is_powershell)
+        File.join(
+          File.dirname(__FILE__),
+          %w[.. .. support],
+          "chef_base_updater" + (powershell_shell? ? ".ps1" : ".sh")
       end
 
     end
