@@ -8,6 +8,11 @@ is currently no support for `chef-solo`.
 ### Test-Kitchen
 This provider requires [Test-Kitchen](https://github.com/test-kitchen/test-kitchen) `~> 1.4`.
 
+## Supported Distros
+
+* Tested on Ubuntu and Windows
+* Should work on any omnibus-chef install (Debian, RHEL, SuSE, Solaris, AIX, Custom Builds, etc)
+
 ## <a name="installation"></a> Installation and Setup
 Add the following to your Gemfile:
 ```ruby
