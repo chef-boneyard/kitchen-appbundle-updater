@@ -6,6 +6,8 @@ module Kitchen
       default_config :refname, "master"
       default_config :github_owner, "chef"
       default_config :github_repo, "chef"
+      default_config :chef_omnibus_url, "https://omnitruck.chef.io/current/install.sh"
+      default_config :chef_omnibus_install_options, "-n"
 
       def prepare_command
         ruby_bin = remote_path_join(config[:ruby_bindir], "ruby").
