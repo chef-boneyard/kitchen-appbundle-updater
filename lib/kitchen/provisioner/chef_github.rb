@@ -6,6 +6,7 @@ module Kitchen
       default_config :refname, "master"
       default_config :github_owner, "chef"
       default_config :github_repo, "chef"
+      default_config :ohai_refname, ""
       default_config :chef_omnibus_url, "https://omnitruck.chef.io/current/install.sh"
       default_config :chef_omnibus_install_options, "-n"
 
@@ -20,6 +21,7 @@ module Kitchen
           shell_var("refname", config[:refname]),
           shell_var("github_owner", config[:github_owner]),
           shell_var("github_repo", config[:github_repo]),
+          shell_var("ohai_refname", config[:ohai_refname]),
           shell_var("ruby", sudo(ruby_bin)),
           shell_var("gem", sudo(gem_bin)),
           shell_var("appbundle_updater", appbundle_updater_bin),
