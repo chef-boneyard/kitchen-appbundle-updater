@@ -6,15 +6,14 @@ require "kitchen-appbundle-updater/version"
 Gem::Specification.new do |spec|
   spec.name          = "kitchen-appbundle-updater"
   spec.version       = KitchenAppbundleUpdater::VERSION
-  spec.authors       = ["Jay Mundrawala"]
-  spec.email         = ["jdmundrawala@gmail.com"]
-  spec.description   = %q{A Test Kitchen Driver for Appbundle-updater}
+  spec.authors       = ["Chef Software"]
+  spec.email         = ["oss@chef.io"]
+  spec.description   = "A Test Kitchen Driver for Appbundle-updater"
   spec.summary       = spec.description
   spec.homepage      = "https://github.com/chef/kitchen-appbundle-updater"
   spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files`.split($/)
-  spec.executables   = []
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
