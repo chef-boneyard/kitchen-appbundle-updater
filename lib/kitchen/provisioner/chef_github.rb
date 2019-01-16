@@ -1,4 +1,4 @@
-require 'kitchen/provisioner/chef_zero'
+require "kitchen/provisioner/chef_zero"
 
 module Kitchen
   module Provisioner
@@ -11,10 +11,10 @@ module Kitchen
       default_config :chef_omnibus_install_options, "-n"
 
       def prepare_command
-        ruby_bin = remote_path_join(config[:ruby_bindir], "ruby").
-          tap { |path| path.concat(".exe") if windows_os? }
-        gem_bin = remote_path_join(config[:ruby_bindir], "gem").
-          tap { |path| path.concat(".bat") if windows_os? }
+        ruby_bin = remote_path_join(config[:ruby_bindir], "ruby")
+          .tap { |path| path.concat(".exe") if windows_os? }
+        gem_bin = remote_path_join(config[:ruby_bindir], "gem")
+          .tap { |path| path.concat(".bat") if windows_os? }
         appbundle_updater_bin = remote_path_join(config[:ruby_bindir], "appbundle-updater")
           # tap { |path| path.concat(".bat") if windows_os? }
         vars = [
@@ -36,7 +36,7 @@ module Kitchen
       def my_shell_code_from_file(vars, file)
         src_file = File.join(
           File.dirname(__FILE__),
-          %w[.. .. .. support],
+          %w{.. .. .. support},
           file + (powershell_shell? ? ".ps1" : ".sh")
         )
 

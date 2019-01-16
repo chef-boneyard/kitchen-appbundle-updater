@@ -13,7 +13,6 @@ group :debug do
   gem "pry-stack_explorer"
 end
 
-
 group :docs do
   gem "github-markup"
   gem "redcarpet"
