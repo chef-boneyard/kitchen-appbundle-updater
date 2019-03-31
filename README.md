@@ -6,7 +6,7 @@ is currently no support for `chef-solo`.
 
 ## <a name="requirements"></a> Requirements
 ### Test-Kitchen
-This provider requires [Test-Kitchen](https://github.com/test-kitchen/test-kitchen) `~> 1.4`.
+This provider requires [Test-Kitchen](https://github.com/test-kitchen/test-kitchen) `1.4+`.
 
 ## Supported Distros
 
@@ -16,7 +16,7 @@ This provider requires [Test-Kitchen](https://github.com/test-kitchen/test-kitch
 ## <a name="installation"></a> Installation and Setup
 Add the following to your Gemfile:
 ```ruby
-gem "test-kitchen", "~> 1.4.0"
+gem "test-kitchen", ">= 1.4.0"
 gem 'kitchen-appbundle-updater'
 ```
 
