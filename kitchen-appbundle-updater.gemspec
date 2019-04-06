@@ -13,8 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/chef/kitchen-appbundle-updater"
   spec.license       = "Apache-2.0"
 
-  spec.files         = `git ls-files`.split($/)
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  s.files            = %w{LICENSE Gemfile Rakefile} + Dir.glob("*.gemspec") + Dir.glob("{lib,support}/**/*")
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler"
