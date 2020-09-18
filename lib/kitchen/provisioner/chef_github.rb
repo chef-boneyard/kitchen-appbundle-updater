@@ -35,7 +35,7 @@ module Kitchen
       # need to override and use __FILE__ relative to this plugin
       def my_shell_code_from_file(vars, file)
         src_file = File.join(
-          File.dirname(__FILE__),
+          __dir__,
           %w{.. .. .. support},
           file + (powershell_shell? ? ".ps1" : ".sh")
         )
